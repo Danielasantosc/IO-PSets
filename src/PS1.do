@@ -67,7 +67,7 @@ collabels("Mean" "Median" "SD" "Min" "Max" "N")
 * Using only balanced panel, compute between, within and RE estimators
 
 xtset firm year
-
+est clear 
 * Total/Pooled
 eststo: reg Y A K L i.year if balanced==1
 
@@ -101,6 +101,7 @@ tsset firm year
 tab year, g(year_)
 drop year_1
 
+est clear 
 * First difference
 eststo: reg S1.Y S1.A S1.K S1.L S1.year_* if balanced==1, nocons // need to get rid of constant due to collinearity
 
@@ -110,11 +111,10 @@ eststo: reg S2.Y S2.A S2.K S2.L S2.year_* if balanced==1, nocons
 * Third difference 
 eststo: reg S3.Y S3.A S3.K S3.L S3.year_* if balanced==1, nocons 
 
-* Table
+* Table - PROBLEM HERE NEEDS TO BE SOLVED 
 esttab using "./out/table_question3.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("First" "Second" "Third") /// 
- keep(A K L) ///
  booktabs nonotes
  
 ********************************************************************************
@@ -122,7 +122,7 @@ esttab using "./out/table_question3.tex", replace   ///
 * Question 4 *
 
 ** a) Using the full panel, compute pooled and FE estimators 
-
+est clear 
 * Total/Pooled
 eststo: reg Y A K L i.year
 
@@ -138,6 +138,7 @@ esttab using "./out/table_question4a.tex", replace   ///
 
 ** b) Probit model 
 * Agus solution includes squared variables and interactions. How do I know what specification to use? 
+est clear 
 eststo: probit X I A K
 
 * Table 
@@ -148,12 +149,16 @@ esttab using "./out/table_question4b.tex", replace   ///
  booktabs nonotes
  
 * Inverse Mills Ratio 
-predict phat, xb
-gen mills = exp(-.5*phat^2)/(sqrt(2*_pi)*normprob(phat))
+predict phat_xb, xb
+predict phat
+gen pdf_probit = normalden(phat_xb)
+gen cdf_probit = normprob(phat_xb)
+gen inv_mills = pdf_probit/cdf_probit 
 
 * Running pooled and FE with mills 
-eststo: reg Y A K L i.year mills // pooled
-eststo: xtreg Y A K L i.year mills, fe // FE 
+est clear 
+eststo: reg Y A K L i.year inv_mills // pooled
+eststo: xtreg Y A K L i.year inv_mills, fe // FE 
 
 * Table 
 esttab using "./out/table_question4b_mills.tex", replace   ///
@@ -168,9 +173,59 @@ esttab using "./out/table_question4b_mills.tex", replace   ///
 * Question 5 *
 
 ** a) Run the first stage 
-reg Y L i.year 
+* Create squared variables 
+gen ksq = K^2
+gen isq = I^2
+gen asq = A^2
+gen K_I = K*I
+gen K_A = K*A
+gen A_I = A*I 
+
+est clear 
+eststo: reg Y L i.year K I A ksq isq asq K_I K_A A_I
+
+* Table 
+esttab using "./out/table_question5a.tex", replace   ///
+ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
+ keep(L) ///
+ booktabs nonotes
  
+** b) 
+gen phi_hat = _b[_cons] + _b[K]*K + _b[A]*A + _b[I]*I + _b[ksq]*ksq + _b[asq]*asq + _b[isq]*isq + _b[K_A]*K_A + _b[K_I]*K_I + _b[A_I]*A_I
+
+** c) 
+gen Y_ss = Y - _b[L]*L 
+nl (Y_ss = {b0} + {bK}*K + {bA}*A + {by2}*year_2 + {by3}*year_3 + {by4}*year_4 + {by5}*year_5 + {by6}*year_6 + {by7}*year_7 + {by8}*year_8 + {by9}*year_9 + {by10}*year_10 + {bh}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K) + {bh_sq}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)^2) if L1.phi_hat != .
+estimates store nls 
+
+* Table - THIS DOESN'T LOOK GOOD, NEED TO SOLVE
+ esttab nls using "./out/table_question5c.tex", replace   ///
+ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
+ booktabs nonotes
  
+** d)
+gen phat_sq = phat^2
+
+nl (Y_ss = {b0} + {bK}*K + {bA}*A + {by2}*year_2 + {by3}*year_3 + {by4}*year_4 + {by5}*year_5 + {by6}*year_6 + {by7}*year_7 + {by8}*year_8 + {by9}*year_9 + {by10}*year_10 + {bh}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K) + {bh_sq}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)^2 + {bphat}*L1.phat + {bphat_sq}*L1.phat_sq + {b_phat_h}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)*L1.phat) if L1.phi_hat != .
+estimates store nls_d
+
+* Table - THIS DOESN'T LOOK GOOD, NEED TO SOLVE
+ esttab nls_d using "./out/table_question5d.tex", replace   ///
+ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
+ booktabs nonotes
+ 
+** e) 
+net install st0145_2
+
+gen exit = (X == 0)
+opreg Y, exit(exit) state(A K) proxy(I) free(L) cvars(year_*) 
+
+
+
+
+
+ 
+
 
 
 
