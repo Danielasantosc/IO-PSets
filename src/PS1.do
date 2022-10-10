@@ -137,8 +137,38 @@ esttab using "./out/table_question4a.tex", replace   ///
  booktabs nonotes
 
 ** b) Probit model 
+* Agus solution includes squared variables and interactions. How do I know what specification to use? 
+eststo: probit X I A K
+
+* Table 
+esttab using "./out/table_question4b.tex", replace   ///
+ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
+ mtitles("Probit") /// 
+ keep(I K A) ///
+ booktabs nonotes
+ 
+* Inverse Mills Ratio 
+predict phat, xb
+gen mills = exp(-.5*phat^2)/(sqrt(2*_pi)*normprob(phat))
+
+* Running pooled and FE with mills 
+eststo: reg Y A K L i.year mills // pooled
+eststo: xtreg Y A K L i.year mills, fe // FE 
+
+* Table 
+esttab using "./out/table_question4b_mills.tex", replace   ///
+ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
+ mtitles("Pooled" "Within") /// 
+ keep(A K L) ///
+ booktabs nonotes
 
 
+********************************************************************************
+
+* Question 5 *
+
+** a) Run the first stage 
+reg Y L i.year 
  
  
 
