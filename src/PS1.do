@@ -157,8 +157,8 @@ gen inv_mills = pdf_probit/cdf_probit
 
 * Running pooled and FE with mills 
 est clear 
-eststo: reg Y A K L i.year inv_mills // pooled
-eststo: xtreg Y A K L i.year inv_mills, fe // FE 
+eststo: reg Y A K L i.year L1.inv_mills // pooled
+eststo: xtreg Y A K L i.year L1.inv_mills, fe // FE 
 
 * Table 
 esttab using "./out/table_question4b_mills.tex", replace   ///
