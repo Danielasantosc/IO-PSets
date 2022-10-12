@@ -111,12 +111,12 @@ eststo: reg S2.Y S2.A S2.K S2.L S2.year_* if balanced==1, nocons
 * Third difference 
 eststo: reg S3.Y S3.A S3.K S3.L S3.year_* if balanced==1, nocons 
 
-* Table - PROBLEM HERE NEEDS TO BE SOLVED 
-esttab using "./out/table_question3.tex", replace   ///
- b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- mtitles("First" "Second" "Third") /// 
- booktabs nonotes
- 
+esttab using "./out/table_question3.tex", replace ///
+rename(S2.A S.A S3.A S.A S2.K S.K S3.K S.K S2.L S.L S3.L S.L) ///
+b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
+ mtitles("First" "Second" "Third")  ///
+ keep(S.A S.K S.L) coeflabel(S.A "Age of the firm" S.K "Log of Capital" S.L "Log of Labor") ///
+ booktabs nonotes 
 ********************************************************************************
 
 * Question 4 *
@@ -198,10 +198,10 @@ gen Y_ss = Y - _b[L]*L
 nl (Y_ss = {b0} + {bK}*K + {bA}*A + {by2}*year_2 + {by3}*year_3 + {by4}*year_4 + {by5}*year_5 + {by6}*year_6 + {by7}*year_7 + {by8}*year_8 + {by9}*year_9 + {by10}*year_10 + {bh}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K) + {bh_sq}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)^2) if L1.phi_hat != .
 estimates store nls 
 
-* Table - THIS DOESN'T LOOK GOOD, NEED TO SOLVE
+* Table 
  esttab nls using "./out/table_question5c.tex", replace   ///
- b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- booktabs nonotes
+ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) /// 
+ booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** d)
 gen phat_sq = phat^2
@@ -209,16 +209,21 @@ gen phat_sq = phat^2
 nl (Y_ss = {b0} + {bK}*K + {bA}*A + {by2}*year_2 + {by3}*year_3 + {by4}*year_4 + {by5}*year_5 + {by6}*year_6 + {by7}*year_7 + {by8}*year_8 + {by9}*year_9 + {by10}*year_10 + {bh}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K) + {bh_sq}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)^2 + {bphat}*L1.phat + {bphat_sq}*L1.phat_sq + {b_phat_h}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)*L1.phat) if L1.phi_hat != .
 estimates store nls_d
 
-* Table - THIS DOESN'T LOOK GOOD, NEED TO SOLVE
+* Table 
  esttab nls_d using "./out/table_question5d.tex", replace   ///
- b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- booktabs nonotes
+ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) /// 
+ booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** e) 
 net install st0145_2
 
 gen exit = (X == 0)
 opreg Y, exit(exit) state(A K) proxy(I) free(L) cvars(year_*) 
+estimates store opreg 
+
+esttab opreg using "./out/table_question5e.tex", replace   ///
+ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
+ booktabs nonotes keep(Y:A Y:K Y:L)  eqlabels(none)
 
 
 
