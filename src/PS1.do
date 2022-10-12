@@ -39,6 +39,7 @@ ereturn list
 esttab using "./out/summary_stats_full.tex", replace ////
 cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))") nonumber ///
 nomtitle nonote noobs label booktabs ///
+title("Summary Statistics for the Full Sample") ///
 collabels("Mean" "Median" "SD" "Min" "Max" "N")
 
 * Balanced Sample Table 
@@ -49,6 +50,7 @@ ereturn list
 esttab using "./out/summary_stats_balanced.tex", replace ////
 cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))") nonumber ///
 nomtitle nonote noobs label booktabs ///
+title("Summary Statistics for the Balanced Sample") ///
 collabels("Mean" "Median" "SD" "Min" "Max" "N")
 
 * Exiters Sample Table 
@@ -59,6 +61,7 @@ ereturn list
 esttab using "./out/summary_stats_exiters.tex", replace ////
 cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))") nonumber ///
 nomtitle nonote noobs label booktabs ///
+title("Summary Statistics for the Exiters Sample") ///
 collabels("Mean" "Median" "SD" "Min" "Max" "N")
 
 ********************************************************************************
@@ -87,6 +90,7 @@ esttab using "./out/table_question2.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Pooled" "Between" "Within" "Random Effects") /// 
  keep(A K L) ///
+ title("Total, Between, Within and Random Effects Estimators") ///
  booktabs nonotes
 
 * Hausman 
@@ -115,6 +119,7 @@ esttab using "./out/table_question3.tex", replace ///
 rename(S2.A S.A S3.A S.A S2.K S.K S3.K S.K S2.L S.L S3.L S.L) ///
 b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("First" "Second" "Third")  ///
+ title("Difference Estimators") ///
  keep(S.A S.K S.L) coeflabel(S.A "Age of the firm" S.K "Log of Capital" S.L "Log of Labor") ///
  booktabs nonotes 
 ********************************************************************************
@@ -133,6 +138,7 @@ eststo: xtreg Y A K L i.year, fe
 esttab using "./out/table_question4a.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Pooled" "Within") /// 
+ title("Total and Within Estimators for Full Sample") ///
  keep(A K L) ///
  booktabs nonotes
 
@@ -145,7 +151,8 @@ eststo: probit X I A K
 esttab using "./out/table_question4b.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Probit") /// 
- keep(I K A) ///
+ title("Probit Model for Exiting Probability") ///
+ keep(I K A) eqlabels(none) ///
  booktabs nonotes
  
 * Inverse Mills Ratio 
@@ -164,6 +171,7 @@ eststo: xtreg Y A K L i.year L1.inv_mills, fe // FE
 esttab using "./out/table_question4b_mills.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Pooled" "Within") /// 
+ title("Total and Within Estimators correcting for Selection") ///
  keep(A K L) ///
  booktabs nonotes
 
@@ -188,6 +196,7 @@ eststo: reg Y L i.year K I A ksq isq asq K_I K_A A_I
 esttab using "./out/table_question5a.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  keep(L) ///
+ title("OP First Stage") ///
  booktabs nonotes
  
 ** b) 
@@ -200,7 +209,8 @@ estimates store nls
 
 * Table 
  esttab nls using "./out/table_question5c.tex", replace   ///
- b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) /// 
+ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) ///
+ title("OP Second Stage") ///
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** d)
@@ -212,6 +222,7 @@ estimates store nls_d
 * Table 
  esttab nls_d using "./out/table_question5d.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) /// 
+ title("OP Second Stage correcting for Selection") ///
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** e) 
@@ -223,6 +234,7 @@ estimates store opreg
 
 esttab opreg using "./out/table_question5e.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
+ title("OP Estimation correcting for Endogeneity and Selection") ///
  booktabs nonotes keep(Y:A Y:K Y:L)  eqlabels(none)
 
 
