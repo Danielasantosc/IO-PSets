@@ -150,7 +150,6 @@ eststo: probit X I A K
 * Table 
 esttab using "./out/table_question4b.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- mtitles("Probit") /// 
  title("Probit Model for Exiting Probability") ///
  keep(I K A) eqlabels(none) ///
  booktabs nonotes
@@ -197,7 +196,7 @@ esttab using "./out/table_question5a.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  keep(L) ///
  title("OP First Stage") ///
- booktabs nonotes
+ booktabs nonotes nomtitles
  
 ** b) 
 gen phi_hat = _b[_cons] + _b[K]*K + _b[A]*A + _b[I]*I + _b[ksq]*ksq + _b[asq]*asq + _b[isq]*isq + _b[K_A]*K_A + _b[K_I]*K_I + _b[A_I]*A_I
@@ -210,7 +209,7 @@ estimates store nls
 * Table 
  esttab nls using "./out/table_question5c.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) ///
- title("OP Second Stage") ///
+ title("OP Second Stage") nomtitles ///
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** d)
@@ -222,7 +221,7 @@ estimates store nls_d
 * Table 
  esttab nls_d using "./out/table_question5d.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) /// 
- title("OP Second Stage correcting for Selection") ///
+ title("OP Second Stage correcting for Selection") nomtitles ///
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** e) 
