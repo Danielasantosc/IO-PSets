@@ -161,10 +161,10 @@ gen pdf_probit = normalden(phat_xb)
 gen cdf_probit = normprob(phat_xb)
 gen inv_mills = pdf_probit/cdf_probit 
 
-* Running pooled and FE with mills 
+* Running pooled and FE with mills -- HInt is wrong, we don't need to lag the mills
 est clear 
-eststo: reg Y A K L i.year L1.inv_mills // pooled
-eststo: xtreg Y A K L i.year L1.inv_mills, fe // FE 
+eststo: reg Y A K L i.year inv_mills // pooled
+eststo: xtreg Y A K L i.year inv_mills, fe // FE 
 
 * Table 
 esttab using "./out/table_question4b_mills.tex", replace   ///
@@ -225,7 +225,7 @@ estimates store nls_d
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** e) 
-net install st0145_2
+* net install st0145_2 - for some reason this stopped working for me, but this should work to install opreg
 
 gen exit = (X == 0)
 opreg Y, exit(exit) state(A K) proxy(I) free(L) cvars(year_*) 
