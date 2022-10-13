@@ -1,6 +1,11 @@
-*****************
-* Problem Set 1 *
-*****************
+**************************************************************
+* Problem Set 1 - Industrial Organization 
+* Ana, Dani, Rafa
+* 13/10/2022
+* Input: ./data/PS1_data.dta
+* Output: all tables stored in ./out
+* You can also find on github a .tex file with all the tables
+**************************************************************
 
 clear all 
 set more off 
@@ -37,8 +42,8 @@ estpost tabstat Y L I K A, c(stat) stat(mean p50 sd min max n)
 ereturn list 
 
 esttab using "./out/summary_stats_full.tex", replace ////
-cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))") nonumber ///
-nomtitle nonote noobs label booktabs ///
+cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))")  ///
+nonumber nomtitle nonote noobs label booktabs ///
 title("Summary Statistics for the Full Sample") ///
 collabels("Mean" "Median" "SD" "Min" "Max" "N")
 
@@ -48,8 +53,8 @@ estpost tabstat Y L I K A if balanced == 1, c(stat) stat(mean p50 sd min max n)
 ereturn list 
 
 esttab using "./out/summary_stats_balanced.tex", replace ////
-cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))") nonumber ///
-nomtitle nonote noobs label booktabs ///
+cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))")  ///
+nonumber nomtitle nonote noobs label booktabs ///
 title("Summary Statistics for the Balanced Sample") ///
 collabels("Mean" "Median" "SD" "Min" "Max" "N")
 
@@ -59,8 +64,8 @@ estpost tabstat Y L I K A if balanced == 0, c(stat) stat(mean p50 sd min max n)
 ereturn list 
 
 esttab using "./out/summary_stats_exiters.tex", replace ////
-cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))") nonumber ///
-nomtitle nonote noobs label booktabs ///
+cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))")  ///
+nonumber nomtitle nonote noobs label booktabs ///
 title("Summary Statistics for the Exiters Sample") ///
 collabels("Mean" "Median" "SD" "Min" "Max" "N")
 
@@ -199,11 +204,15 @@ esttab using "./out/table_question5a.tex", replace   ///
  booktabs nonotes nomtitles
  
 ** b) 
-gen phi_hat = _b[_cons] + _b[K]*K + _b[A]*A + _b[I]*I + _b[ksq]*ksq + _b[asq]*asq + _b[isq]*isq + _b[K_A]*K_A + _b[K_I]*K_I + _b[A_I]*A_I
+gen phi_hat = _b[_cons] + _b[K]*K + _b[A]*A + _b[I]*I + ///
+_b[ksq]*ksq + _b[asq]*asq + _b[isq]*isq + _b[K_A]*K_A + _b[K_I]*K_I + _b[A_I]*A_I
 
 ** c) 
 gen Y_ss = Y - _b[L]*L 
-nl (Y_ss = {b0} + {bK}*K + {bA}*A + {by2}*year_2 + {by3}*year_3 + {by4}*year_4 + {by5}*year_5 + {by6}*year_6 + {by7}*year_7 + {by8}*year_8 + {by9}*year_9 + {by10}*year_10 + {bh}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K) + {bh_sq}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)^2) if L1.phi_hat != .
+nl (Y_ss = {b0} + {bK}*K + {bA}*A + {by2}*year_2 + {by3}*year_3 + ///
+{by4}*year_4 + {by5}*year_5 + {by6}*year_6 + {by7}*year_7 + {by8}*year_8 /// 
++ {by9}*year_9 + {by10}*year_10 + {bh}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K) /// 
++ {bh_sq}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)^2) if L1.phi_hat != .
 estimates store nls 
 
 * Table 
@@ -215,7 +224,11 @@ estimates store nls
 ** d)
 gen phat_sq = phat^2
 
-nl (Y_ss = {b0} + {bK}*K + {bA}*A + {by2}*year_2 + {by3}*year_3 + {by4}*year_4 + {by5}*year_5 + {by6}*year_6 + {by7}*year_7 + {by8}*year_8 + {by9}*year_9 + {by10}*year_10 + {bh}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K) + {bh_sq}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)^2 + {bphat}*L1.phat + {bphat_sq}*L1.phat_sq + {b_phat_h}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)*L1.phat) if L1.phi_hat != .
+nl (Y_ss = {b0} + {bK}*K + {bA}*A + {by2}*year_2 + {by3}*year_3 + ///
+{by4}*year_4 + {by5}*year_5 + {by6}*year_6 + {by7}*year_7 + {by8}*year_8 + ///
+{by9}*year_9 + {by10}*year_10 + {bh}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K) + ///
+{bh_sq}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)^2 + {bphat}*L1.phat + /// 
+{bphat_sq}*L1.phat_sq + {b_phat_h}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)*L1.phat) if L1.phi_hat != .
 estimates store nls_d
 
 * Table 
@@ -225,7 +238,8 @@ estimates store nls_d
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** e) 
-* net install st0145_2 - for some reason this stopped working for me, but this should work to install opreg
+net install st0145_2 // for some reason this stopped working for me out of the blue. 
+/// but hopefully it will work for somebody that doesn't have the package installed
 
 gen exit = (X == 0)
 opreg Y, exit(exit) state(A K) proxy(I) free(L) cvars(year_*) 
