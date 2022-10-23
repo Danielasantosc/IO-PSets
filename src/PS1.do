@@ -114,13 +114,14 @@ foreach var in Y K L I {
 
 * Question 2 *
 * Using only balanced panel, compute between, within and RE estimators
-
+xtset firm year
 est clear 
+
 * Total/Pooled
 eststo: reg Y A K L i.year if balanced==1
 
 * Between
-eststo: xtreg Y A K L i.year if balanced==1, be
+eststo: xtreg Y A K L if balanced==1, be
 
 * Within
 eststo: xtreg Y A K L i.year if balanced==1, fe
@@ -135,7 +136,7 @@ esttab using "$path/out/table_question2.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Pooled" "Between" "Within" "Random Effects") /// 
  keep(A K L) ///
- title("Total, Between, Within and Random Effects Estimators") ///
+ title("Total, Between, Within and Random Effects Estimators" \label{tab:q2}) ///
  booktabs nonotes
 
 * Hausman 
@@ -151,6 +152,7 @@ tab year, g(year_)
 drop year_1
 
 est clear 
+
 * First difference
 eststo: reg S1.Y S1.A S1.K S1.L S1.year_* if balanced==1, nocons // need to get rid of constant due to collinearity
 
