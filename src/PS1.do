@@ -14,6 +14,11 @@ if c(username)== "abrasm" { //insert username
 cd "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets" // insert root path
 }
 
+if c(username)== "Daniela" { //insert username
+cd "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/ps1" // insert root path
+}
+
+
 * Upload data
 use data/PS1_Data, clear
 
