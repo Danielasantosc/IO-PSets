@@ -12,12 +12,14 @@ set more off
 
 if c(username)== "abrasm" { //insert username
 cd "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets" // insert root path
+globa path "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets"
 }
 
 if c(username)== "Daniela" { //insert username
 cd "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/ps1" // insert root path
-}
+globa path "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/ps1"
 
+}
 
 * Upload data
 use data/PS1_Data, clear
@@ -41,38 +43,56 @@ la var Y "Log of Output"
 bysort firm: egen years_sample = count(firm)
 gen balanced = (years_sample == 10)
 
+local statsvars "Y L I K A"
+
 * Full Sample Table 
 est clear 
-estpost tabstat Y L I K A, c(stat) stat(mean p50 sd min max n)
+estpost tabstat `statsvars', c(stat) stat(mean sd min p25 p50 p75 max n)
 ereturn list 
 
-esttab using "./out/summary_stats_full.tex", replace ////
-cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))")  ///
+esttab using "$path/out/summary_stats_full.tex", replace ////
+cells("mean(fmt(%6.2fc)) sd(fmt(%6.1fc))  min p25(fmt(%6.2fc)) p50(fmt(%6.2fc)) p75(fmt(%6.2fc)) max count(fmt(%6.0fc))")  ///
 nonumber nomtitle nonote noobs label booktabs ///
 title("Summary Statistics for the Full Sample") ///
-collabels("Mean" "Median" "SD" "Min" "Max" "N")
+collabels("Mean" "SD" "Min" "Perc. 25" "Median" "Perc. 75" "Max" "N")
 
 * Balanced Sample Table 
 est clear 
-estpost tabstat Y L I K A if balanced == 1, c(stat) stat(mean p50 sd min max n) 
+estpost tabstat `statsvars' if balanced == 1, c(stat) stat(mean sd min p25 p50 p75 max n)
 ereturn list 
 
-esttab using "./out/summary_stats_balanced.tex", replace ////
-cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))")  ///
+esttab using "$path/out/summary_stats_balanced.tex", replace ////
+cells("mean(fmt(%6.2fc)) sd(fmt(%6.1fc))  min p25(fmt(%6.2fc)) p50(fmt(%6.2fc)) p75(fmt(%6.2fc)) max count(fmt(%6.0fc))")  ///
 nonumber nomtitle nonote noobs label booktabs ///
 title("Summary Statistics for the Balanced Sample") ///
-collabels("Mean" "Median" "SD" "Min" "Max" "N")
+collabels("Mean" "SD" "Min" "Perc. 25" "Median" "Perc. 75" "Max" "N")
 
 * Exiters Sample Table 
 est clear 
-estpost tabstat Y L I K A if balanced == 0, c(stat) stat(mean p50 sd min max n) 
+estpost tabstat `statsvars' if balanced == 0, c(stat) stat(mean sd min p25 p50 p75 max n)
 ereturn list 
 
-esttab using "./out/summary_stats_exiters.tex", replace ////
-cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))")  ///
+esttab using "$path/out/summary_stats_exiters.tex", replace ////
+cells("mean(fmt(%6.2fc)) sd(fmt(%6.1fc))  min p25(fmt(%6.2fc)) p50(fmt(%6.2fc)) p75(fmt(%6.2fc)) max count(fmt(%6.0fc))")  ///
 nonumber nomtitle nonote noobs label booktabs ///
 title("Summary Statistics for the Exiters Sample") ///
-collabels("Mean" "Median" "SD" "Min" "Max" "N")
+collabels("Mean" "SD" "Min" "Perc. 25" "Median" "Perc. 75" "Max" "N")
+
+foreach var of local statsvars {
+    if `var'==Y local w=0.5
+    if `var'==K local w=0.5
+    if `var'==L local w=0.3
+    if `var'==I local w=0.3
+    dis "`var'"
+    ttest `var', by(balanced)
+
+    twoway (histogram `var', color(gs14) w(`w')) ///
+    (histogram `var' if balanced==1, fcolor(none) lcolor(black) graphregion(color(white)) bgcolor(white) w(`w')) ///
+    (histogram `var' if balanced==0, fcolor(none) lcolor(cranberry) w(`w')) ///
+    , legend(order (1 "Full" 2 "Balanced" 3 "Exiters" ) pos(11) ring(0) cols(1) region(lcolor(white))) ylabel(,nogrid)
+    graph export "$path/hist`var'.eps", replace
+}
+
 
 ********************************************************************************
 
