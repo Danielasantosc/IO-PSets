@@ -105,6 +105,16 @@ Firms that exit the market are, on average, 2.7 years older than the firms that 
 The fact that exiting firms have higher output is puzzling. However, as can be seen in \autoref{fig:time}, after year three, exiter firms seem to have tried to compensate for a bad productivity draw by increasing labor and investment. However, this overspending drove them to leave the market.
 
 \subsection*{Question 2}
+In order to estimate technology from a production function, we need the best possible estimates of the $\beta$s in the main regression because everything that we don't accurately account for in terms of labor, capital, and firm characteristics will go in the error which will ultimately be the estimate of technology. We expect the labor coefficient to be positively biased given the simultaneity between a flexible input and output. Regarding capital, we expect it to suffer from both attenuation bias and negative bias. First, because of capital measurement error. Second, because of selection, since we are focused solely on the firms that stay.  \\
+
+Suppose the errors in equation 1 can be rewritten as $\eta_{it}=\varepsilon_{it}+\eta_{i}$. If the unobserved time-invariant component $\eta_{i}$ is not correlated with the regressors, estimates from the fixed-effects model are consistent but inefficient relative to estimates from the random-effects model.
+In this case, the results for the pooled, fixed, random, and between effects  are shown in \autoref{tab:q2}. As can be seen in column (1), it is the case that the coefficient of labor is larger than the standard 0.3 in the US literature. Likewise, capital seems less that then benchmark of 0.6.
+
+
+the crucial distinction between within and random effects is whether the unobserved individual firm effect embodies elements that are correlated with the regressors in the model, not whether these effects are stochastic or not
+
+In this case, the interpretation of sigma u in the coefficient table is the same for the fixed-effects and random-effects models. However, sigma u is a nuisance parameter when x is correlated with the covariates.
+
 \input{out/table_question2.tex}
 \FloatBarrier
 \begin{comment}

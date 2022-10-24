@@ -121,14 +121,14 @@ est clear
 eststo: reg Y A K L i.year if balanced==1
 
 * Between
-eststo: xtreg Y A K L if balanced==1, be
+eststo: xtreg Y A K L i.year if balanced==1, be
 
 * Within
 eststo: xtreg Y A K L i.year if balanced==1, fe
 estimates store fe
 
 * Random Effects 
-eststo: xtreg Y A K L i.year if balanced==1, re
+eststo: xtreg Y A K L i.year if balanced==1, re theta
 estimates store re
 
 * Final regression table
