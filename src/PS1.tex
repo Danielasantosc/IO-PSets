@@ -25,6 +25,7 @@
 \usepackage{amsmath}
 \usepackage{comment}
 \usepackage{todonotes}
+\usepackage[colorlinks=true,linkcolor=magenta,urlcolor=magenta,citecolor=magenta,hyperfootnotes=false]{hyperref}
 
 
 \title{Problem Set 1}
@@ -39,16 +40,74 @@
 
 \subsection*{Question 1}
 
-\input{../out/summary_stats_full.tex}
-\input{../out/summary_stats_balanced.tex}
-\input{../out/summary_stats_exiters.tex}
-\FloatBarrier
+\input{out/summary_stats_full.tex}
+\input{out/summary_stats_balanced.tex}
+\input{out/summary_stats_exiters.tex}
 
-\newpage
+\begin{comment}
+	\begin{figure}[h!]
+		\caption{Distribution by samples}\label{fig:sumstat}
+		\centering	
+		\begin{subfigure}[b]{.495\textwidth}
+			\centering
+			\caption{Output}
+			\includegraphics[width=\textwidth]{out/histY.eps}
+		\end{subfigure}
+		\begin{subfigure}[b]{.495\textwidth}
+			\centering
+			\caption{Labor}
+			\includegraphics[width=\textwidth]{out/histL.eps}
+		\end{subfigure}\\
+		\begin{subfigure}[b]{.495\textwidth}
+			\centering
+			\caption{Capital}
+			\includegraphics[width=\textwidth]{out/histK.eps}
+		\end{subfigure}
+		\begin{subfigure}[b]{.495\textwidth}
+			\centering
+			\caption{Investment}
+			\includegraphics[width=\textwidth]{out/histI.eps}
+		\end{subfigure}
+		
+	\end{figure}
+\end{comment}
+
+
+\begin{figure}[h!]
+	\caption{Time series by samples}\label{fig:time}
+	\centering	
+	\begin{subfigure}[b]{.4\textwidth}
+		\centering
+		\caption{Output}
+		\includegraphics[width=\textwidth]{out/timeY.eps}
+	\end{subfigure}
+	\begin{subfigure}[b]{.4\textwidth}
+		\centering
+		\caption{Labor}
+		\includegraphics[width=\textwidth]{out/timeL.eps}
+	\end{subfigure}\\
+	\begin{subfigure}[b]{.4\textwidth}
+		\centering
+		\caption{Capital}
+		\includegraphics[width=\textwidth]{out/timeK.eps}
+	\end{subfigure}
+	\begin{subfigure}[b]{.4\textwidth}
+		\centering
+		\caption{Investment}
+		\includegraphics[width=\textwidth]{out/timeI.eps}
+	\end{subfigure}
+\begin{tabular*}{1\textwidth}{c}
+	\multicolumn{1}{p{1\hsize}}{\footnotesize Time series of average by year for both exiteres and firms that stay. Half of the exiters leave the market after year 7.}\\
+\end{tabular*}      	  
+\end{figure}
+
+Firms that exit the market are, on average, 2.7 years older than the firms that stay in the market. As can be seen in \autoref{tab:exitstats}, the differences in distribution suggests that firms that leave the market have less capital and investment, similar labor, and higher output. \\
+The fact that exiting firms have higher output is puzzling. However, as can be seen in \autoref{fig:time}, after year three, exiter firms seem to have tried to compensate for a bad productivity draw by increasing labor and investment. However, this overspending drove them to leave the market.
+
 \subsection*{Question 2}
-\input{../out/table_question2.tex}
+\input{out/table_question2.tex}
 \FloatBarrier
-
+\begin{comment}
 \subsection*{Question 3}
 \input{../out/table_question3.tex}
 \FloatBarrier
@@ -81,6 +140,6 @@
 \subsubsection*{(e)}
 \input{../out/table_question5e.tex}
 \FloatBarrier
-
+\end{comment}
 
 \end{document}
