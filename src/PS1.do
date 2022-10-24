@@ -16,8 +16,8 @@ globa path "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets"
 }
 
 if c(username)== "Daniela" { //insert username
-cd "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/ps1" // insert root path
-globa path "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/ps1"
+cd "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/IO-PSets/src" // insert root path
+globa path "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/IO-PSets/src"
 
 }
 
