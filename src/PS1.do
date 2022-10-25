@@ -12,6 +12,13 @@ set more off
 
 if c(username)== "abrasm" { //insert username
 cd "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets" // insert root path
+globa path "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets"
+}
+
+if c(username)== "Daniela" { //insert username
+cd "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/IO-PSets/src" // insert root path
+globa path "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/IO-PSets/src"
+
 }
 
 * Upload data
@@ -35,47 +42,81 @@ la var Y "Log of Output"
 
 bysort firm: egen years_sample = count(firm)
 gen balanced = (years_sample == 10)
+                                                
+local statsvars "Y L I K A"
 
 * Full Sample Table 
 est clear 
-estpost tabstat Y L I K A, c(stat) stat(mean p50 sd min max n)
+estpost tabstat `statsvars', c(stat) stat(mean sd min p25 p50 p75 max n)
 ereturn list 
 
-esttab using "./out/summary_stats_full.tex", replace ////
-cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))")  ///
+esttab using "$path/out/summary_stats_full.tex", replace ////
+cells("mean(fmt(%6.2fc)) sd(fmt(%6.1fc))  min p25(fmt(%6.2fc)) p50(fmt(%6.2fc)) p75(fmt(%6.2fc)) max count(fmt(%6.0fc))")  ///
 nonumber nomtitle nonote noobs label booktabs ///
-title("Summary Statistics for the Full Sample") ///
-collabels("Mean" "Median" "SD" "Min" "Max" "N")
+title("Summary Statistics for the Full Sample" \label{tab:fullstats}) ///
+collabels("Mean" "SD" "Min" "Perc. 25" "Median" "Perc. 75" "Max" "N")
 
 * Balanced Sample Table 
 est clear 
-estpost tabstat Y L I K A if balanced == 1, c(stat) stat(mean p50 sd min max n) 
+estpost tabstat `statsvars' if balanced == 1, c(stat) stat(mean sd min p25 p50 p75 max n)
 ereturn list 
 
-esttab using "./out/summary_stats_balanced.tex", replace ////
-cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))")  ///
+esttab using "$path/out/summary_stats_balanced.tex", replace ////
+cells("mean(fmt(%6.2fc)) sd(fmt(%6.1fc))  min p25(fmt(%6.2fc)) p50(fmt(%6.2fc)) p75(fmt(%6.2fc)) max count(fmt(%6.0fc))")  ///
 nonumber nomtitle nonote noobs label booktabs ///
-title("Summary Statistics for the Balanced Sample") ///
-collabels("Mean" "Median" "SD" "Min" "Max" "N")
+title("Summary Statistics for the Balanced Sample" \label{tab:balstats}) ///
+collabels("Mean" "SD" "Min" "Perc. 25" "Median" "Perc. 75" "Max" "N")
 
 * Exiters Sample Table 
 est clear 
-estpost tabstat Y L I K A if balanced == 0, c(stat) stat(mean p50 sd min max n) 
+estpost tabstat `statsvars' if balanced == 0, c(stat) stat(mean sd min p25 p50 p75 max n)
 ereturn list 
 
-esttab using "./out/summary_stats_exiters.tex", replace ////
-cells("mean(fmt(%6.2fc)) p50(fmt(%6.2fc)) sd(fmt(%6.2fc)) min max count(fmt(%6.0fc))")  ///
+esttab using "$path/out/summary_stats_exiters.tex", replace ////
+cells("mean(fmt(%6.2fc)) sd(fmt(%6.1fc))  min p25(fmt(%6.2fc)) p50(fmt(%6.2fc)) p75(fmt(%6.2fc)) max count(fmt(%6.0fc))")  ///
 nonumber nomtitle nonote noobs label booktabs ///
-title("Summary Statistics for the Exiters Sample") ///
-collabels("Mean" "Median" "SD" "Min" "Max" "N")
+title("Summary Statistics for the Exiters Sample" \label{tab:exitstats}) ///
+collabels("Mean" "SD" "Min" "Perc. 25" "Median" "Perc. 75" "Max" "N")
+
+foreach var of local statsvars {
+    if `var'==Y local w=0.5
+    if `var'==K local w=0.5
+    if `var'==L local w=0.3
+    if `var'==I local w=0.3
+    dis "`var'"
+    ttest `var', by(balanced)
+
+    twoway (histogram `var', color(gs14) w(`w')) ///
+    (histogram `var' if balanced==1, fcolor(none) lcolor(black) graphregion(color(white)) bgcolor(white) w(`w')) ///
+    (histogram `var' if balanced==0, fcolor(none) lcolor(cranberry) w(`w')) ///
+    , legend(order (1 "Full" 2 "Balanced" 3 "Exiters" ) pos(11) ring(0) cols(1) region(lcolor(white))) ylabel(,nogrid)
+    graph export "$path/out/hist`var'.eps", replace
+}
+
+sum years_sample if balanced==0, det /// in year 6 most of them are still in the market
+
+foreach var in Y K L I {
+
+   egen av_`var'=mean(`var'), by(year balanced)
+
+    twoway (scatter av_`var' year if balanced==1, connect(l) sort) ///
+    (scatter av_`var' year if balanced==0, connect(l) sort), ///
+    graphregion(color(white)) bgcolor(white) ylabel(, nogrid) ///
+    ytitle(" `:variable label `var'' ") xtitle("Years") ///
+    legend(lab(1 "Balanced") lab(2 "Exiters") pos(11) cols(1) ring(0) region(lcolor(white))) ///
+    xline(7) xlabel(1(1)10)
+    graph export "$path/out/time`var'.eps", replace
+
+}
+
 
 ********************************************************************************
 
 * Question 2 *
 * Using only balanced panel, compute between, within and RE estimators
-
 xtset firm year
 est clear 
+
 * Total/Pooled
 eststo: reg Y A K L i.year if balanced==1
 
@@ -87,15 +128,15 @@ eststo: xtreg Y A K L i.year if balanced==1, fe
 estimates store fe
 
 * Random Effects 
-eststo: xtreg Y A K L i.year if balanced==1, re
+eststo: xtreg Y A K L i.year if balanced==1, re theta
 estimates store re
 
 * Final regression table
-esttab using "./out/table_question2.tex", replace   ///
+esttab using "$path/out/table_question2.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Pooled" "Between" "Within" "Random Effects") /// 
  keep(A K L) ///
- title("Total, Between, Within and Random Effects Estimators") ///
+ title("Total, Between, Within and Random Effects Estimators" \label{tab:q2}) ///
  booktabs nonotes
 
 * Hausman 
@@ -111,6 +152,7 @@ tab year, g(year_)
 drop year_1
 
 est clear 
+
 * First difference
 eststo: reg S1.Y S1.A S1.K S1.L S1.year_* if balanced==1, nocons // need to get rid of constant due to collinearity
 
