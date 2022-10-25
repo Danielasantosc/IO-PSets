@@ -16,8 +16,8 @@ globa path "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets"
 }
 
 if c(username)== "Daniela" { //insert username
-cd "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/IO-PSets/src" // insert root path
-globa path "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/IO-PSets/src"
+cd "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/ps1/repo/src" // insert root path
+globa path "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/ps1/repo/src"
 
 }
 
@@ -166,7 +166,7 @@ esttab using "./out/table_question3.tex", replace ///
 rename(S2.A S.A S3.A S.A S2.K S.K S3.K S.K S2.L S.L S3.L S.L) ///
 b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("First" "Second" "Third")  ///
- title("Difference Estimators") ///
+ title("Difference Estimators" \label{tab:q3}) ///
  keep(S.A S.K S.L) coeflabel(S.A "Age of the firm" S.K "Log of Capital" S.L "Log of Labor") ///
  booktabs nonotes 
 ********************************************************************************

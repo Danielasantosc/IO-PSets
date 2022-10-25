@@ -76,22 +76,22 @@
 \begin{figure}[h!]
 	\caption{Time series by samples}\label{fig:time}
 	\centering	
-	\begin{subfigure}[b]{.4\textwidth}
+	\begin{subfigure}[b]{.3\textwidth}
 		\centering
 		\caption{Output}
 		\includegraphics[width=\textwidth]{out/timeY.eps}
 	\end{subfigure}
-	\begin{subfigure}[b]{.4\textwidth}
+	\begin{subfigure}[b]{.3\textwidth}
 		\centering
 		\caption{Labor}
 		\includegraphics[width=\textwidth]{out/timeL.eps}
 	\end{subfigure}\\
-	\begin{subfigure}[b]{.4\textwidth}
+	\begin{subfigure}[b]{.3\textwidth}
 		\centering
 		\caption{Capital}
 		\includegraphics[width=\textwidth]{out/timeK.eps}
 	\end{subfigure}
-	\begin{subfigure}[b]{.4\textwidth}
+	\begin{subfigure}[b]{.3\textwidth}
 		\centering
 		\caption{Investment}
 		\includegraphics[width=\textwidth]{out/timeI.eps}
@@ -101,28 +101,31 @@
 \end{tabular*}      	  
 \end{figure}
 
-Firms that exit the market are, on average, 2.7 years older than the firms that stay in the market. As can be seen in \autoref{tab:exitstats}, the differences in distribution suggests that firms that leave the market have less capital and investment, similar labor, and higher output. \\
+Firms that exit the market are, on average, 2.7 years older than the firms that stay in the market. As can be seen in \autoref{tab:exitstats}, the differences in distribution suggests that firms that leave the market have less capital and investment, similar labor, and higher output. Lower capital points toward the fact that exiters had less protection against negative shocks. \\
 The fact that exiting firms have higher output is puzzling. However, as can be seen in \autoref{fig:time}, after year three, exiter firms seem to have tried to compensate for a bad productivity draw by increasing labor and investment. However, this overspending drove them to leave the market.
 
 \subsection*{Question 2}
-In order to estimate technology from a production function, we need the best possible estimates of the $\beta$s in the main regression because everything that we don't accurately account for in terms of labor, capital, and firm characteristics will go in the error which will ultimately be the estimate of technology. We expect the labor coefficient to be positively biased given the simultaneity between a flexible input and output. Regarding capital, we expect it to suffer from both attenuation bias and negative bias. First, because of capital measurement error. Second, because of selection, since we are focused solely on the firms that stay.  \\
+In order to estimate technology from a production function, we need the best possible estimates of the $\beta$s in the main regression because everything that we don't accurately account for in terms of labor, capital, and firm age will go in the error which will ultimately be the estimate of technology. We expect the labor coefficient to be positively biased given the simultaneity between a flexible input and output. Regarding capital, we expect it to suffer from both attenuation bias and negative bias. First, because of capital measurement error. Second, because of selection, since we are focused solely on the firms that stay which are the ones that have more capital and therefore have a lower productivity cutoff-level.\\
 
-Suppose the errors in equation 1 can be rewritten as $\eta_{it}=\varepsilon_{it}+\eta_{i}$. If the unobserved time-invariant component $\eta_{i}$ is not correlated with the regressors, estimates from the fixed-effects model are consistent but inefficient relative to estimates from the random-effects model.
-In this case, the results for the pooled, fixed, random, and between effects  are shown in \autoref{tab:q2}. As can be seen in column (1), it is the case that the coefficient of labor is larger than the standard 0.3 in the US literature. Likewise, capital seems less that then benchmark of 0.6.
+The results for the pooled, fixed, random, and between effects are shown in \autoref{tab:q2}. As can be seen in column (1), it is the case that the coefficient of labor is larger than the standard 0.3 in the US literature. Likewise, capital seems less that then benchmark of 0.6. However, it is important to note that the labor coefficient doesn't change much across specifications. \\
 
+In the case of the within estimator (column (3)), we assume that the errors have the form $\varepsilon_{it}=\omega_i+\eta_{it}$. So if, for example, more productive firms hire more people, the fixed effect estimator is a better choice and should alleviate the positive bias for labor. However, it does not look like this is the case. The labor coefficient barely changes from the pooled estimator and the capital coefficient (which should be negatively biased because of selection) even decreases. Finally, only 13\% of the estimated variance is due to firm-level fixed effects, which points toward the fact that the within estimator is not addressing our main concerns. \\
 
-the crucial distinction between within and random effects is whether the unobserved individual firm effect embodies elements that are correlated with the regressors in the model, not whether these effects are stochastic or not
+Given that we suspect that the capital coefficient is both negatively biased and attenuated, the between model might be a better choice. The estimator for $\beta_k$ in the between model (column (2)) is the highest of all the regressions. \\
 
-In this case, the interpretation of sigma u in the coefficient table is the same for the fixed-effects and random-effects models. However, sigma u is a nuisance parameter when x is correlated with the covariates.
+Finally, the Hausman test tell us that we can reject the null of the random and fixed effect estimators being statistically equivalent. The necessary asumption for random effects is very implausible in this setting because we precisely expect a non-zero correlation between the observed and unobserved variables. It is then not surprising that random effects estimators are almost the same as the pooled regression.
+
 
 \input{out/table_question2.tex}
 \FloatBarrier
-\begin{comment}
+
 \subsection*{Question 3}
-\input{../out/table_question3.tex}
+Taking the difference between time periods and running the regression on the differenced variables would only address our biases if we assume again that $\varepsilon_{it}=\omega_i+\eta_{it}$. In column (1) of \autoref{tab:q3} we can see that the coefficient for labor did not change from the pooled regression and the capital coefficient falls. 
+\input{out/table_question3.tex}
 \FloatBarrier
 
 \newpage
+\begin{comment}
 \subsection*{Question 4}
 \subsubsection*{(a)}
 \input{../out/table_question4a.tex}
