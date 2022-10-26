@@ -26,7 +26,7 @@
 \usepackage{comment}
 \usepackage{todonotes}
 \usepackage[colorlinks=true,linkcolor=magenta,urlcolor=magenta,citecolor=magenta,hyperfootnotes=false]{hyperref}
-
+\usepackage{parskip}
 
 \title{Problem Set 1}
 \author{Ana, Daniela, Rafael}
@@ -40,61 +40,61 @@
 
 \subsection*{Question 1}
 
-\input{out/summary_stats_full.tex}
-\input{out/summary_stats_balanced.tex}
-\input{out/summary_stats_exiters.tex}
+\input{../out/summary_stats_full.tex}
+\input{../out/summary_stats_balanced.tex}
+\input{../out/summary_stats_exiters.tex}
 
 \begin{comment}
-	\begin{figure}[h!]
+	\begin{figure}[ht]
 		\caption{Distribution by samples}\label{fig:sumstat}
 		\centering	
 		\begin{subfigure}[b]{.495\textwidth}
 			\centering
 			\caption{Output}
-			\includegraphics[width=\textwidth]{out/histY.eps}
+			\includegraphics[width=\textwidth]{../out/histY.eps}
 		\end{subfigure}
 		\begin{subfigure}[b]{.495\textwidth}
 			\centering
 			\caption{Labor}
-			\includegraphics[width=\textwidth]{out/histL.eps}
+			\includegraphics[width=\textwidth]{../out/histL.eps}
 		\end{subfigure}\\
 		\begin{subfigure}[b]{.495\textwidth}
 			\centering
 			\caption{Capital}
-			\includegraphics[width=\textwidth]{out/histK.eps}
+			\includegraphics[width=\textwidth]{../out/histK.eps}
 		\end{subfigure}
 		\begin{subfigure}[b]{.495\textwidth}
 			\centering
 			\caption{Investment}
-			\includegraphics[width=\textwidth]{out/histI.eps}
+			\includegraphics[width=\textwidth]{../out/histI.eps}
 		\end{subfigure}
 		
 	\end{figure}
 \end{comment}
 
 
-\begin{figure}[h!]
+\begin{figure}[ht]
 	\caption{Time series by samples}\label{fig:time}
 	\centering	
 	\begin{subfigure}[b]{.3\textwidth}
 		\centering
 		\caption{Output}
-		\includegraphics[width=\textwidth]{out/timeY.eps}
+		\includegraphics[width=\textwidth]{../out/timeY.eps}
 	\end{subfigure}
 	\begin{subfigure}[b]{.3\textwidth}
 		\centering
 		\caption{Labor}
-		\includegraphics[width=\textwidth]{out/timeL.eps}
+		\includegraphics[width=\textwidth]{../out/timeL.eps}
 	\end{subfigure}\\
 	\begin{subfigure}[b]{.3\textwidth}
 		\centering
 		\caption{Capital}
-		\includegraphics[width=\textwidth]{out/timeK.eps}
+		\includegraphics[width=\textwidth]{../out/timeK.eps}
 	\end{subfigure}
 	\begin{subfigure}[b]{.3\textwidth}
 		\centering
 		\caption{Investment}
-		\includegraphics[width=\textwidth]{out/timeI.eps}
+		\includegraphics[width=\textwidth]{../out/timeI.eps}
 	\end{subfigure}
 \begin{tabular*}{1\textwidth}{c}
 	\multicolumn{1}{p{1\hsize}}{\footnotesize Time series of average by year for both exiteres and firms that stay. Half of the exiters leave the market after year 7.}\\
@@ -116,10 +116,14 @@ Given that we suspect that the capital coefficient is both negatively biased and
 Finally, the Hausman test tell us that we can reject the null of the random and fixed effect estimators being statistically equivalent. The necessary asumption for random effects is very implausible in this setting because we precisely expect a non-zero correlation between the observed and unobserved variables. It is then not surprising that random effects estimators are almost the same as the pooled regression.
 
 
-\input{out/table_question2.tex}
+\input{../out/table_question2.tex}
 \FloatBarrier
 
 \subsection*{Question 3}
+
+\input{../out/table_question3.tex}
+\FloatBarrier
+
 Taking the difference between time periods and running the regression on the differenced variables would only address our biases if we assume again that $\varepsilon_{it}=\omega_i+\eta_{it}$. In this scenario, the $\omega_i$ cancels out when we take the difference. There are two issue here. First, as we discussed above, this assumption on the structure of the errors is probably not right. Second, if the error term in measurement of capital varies in time, it is not canceled out by differencing the variables. Say true capital, $k^*_t$ has measurement error, then $k^*_{it}=k_{it}+\nu_{it}$. As we showed in class, this implies that the error term of the regression is $\eta_{it}^*-\beta_k\nu_{it}$. In this case, when we take first differences we get
 
 
@@ -134,11 +138,10 @@ Cov\left(\Delta (k_{it}^*+\nu_{it} ),\Delta (\eta_{it}^*-\beta_k\nu_{it})\right)
 
 The fact that the coefficient for capital in the pooled regression (\autoref{tab:q2}, column 1) is attenuated comes from the fact that the errors include the $-\beta_k\nu_{it}$ term from measurement error, so the estimator is biased towards zero. In column (1) of \autoref{tab:q3} the capital coefficient is even more attenuated now because the measurement error is amplified by the difference estimator. In columns (2)-(4), we can see that the capital coefficient increases as $\rho_{t,j}$ decreases (bigger time difference) because the bias from \autoref{eq:bias} is becoming smaller. These results show that running the difference regression, even up to three periods apart, only amplifies the bias from measurement error in capital. 
 
-\input{out/table_question3.tex}
-\FloatBarrier
+
 
 \newpage
-\begin{comment}
+
 \subsection*{Question 4}
 \subsubsection*{(a)}
 \input{../out/table_question4a.tex}
@@ -172,7 +175,7 @@ This result makes sense, as selection should lead to a negative bias in the capi
 \FloatBarrier
 
 The results are very similar to what was found before. The steps we went through before were simply a decomposition of this command.  
-\end{comment}
+
 
 
 \end{document}

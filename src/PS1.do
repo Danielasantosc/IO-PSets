@@ -11,8 +11,8 @@ clear all
 set more off 
 
 if c(username)== "abrasm" { //insert username
-cd "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets" // insert root path
-globa path "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets"
+cd "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets/Dani/IO-PSets" // insert root path
+globa path "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets/Dani/IO-PSets"
 }
 
 if c(username)== "Daniela" { //insert username
