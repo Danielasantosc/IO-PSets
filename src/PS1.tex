@@ -40,9 +40,9 @@
 
 \subsection*{Question 1}
 
-\input{out/summary_stats_full.tex}
-\input{out/summary_stats_balanced.tex}
-\input{out/summary_stats_exiters.tex}
+\input{../out/summary_stats_full.tex}
+\input{../out/summary_stats_balanced.tex}
+\input{../out/summary_stats_exiters.tex}
 
 \begin{comment}
 	\begin{figure}[ht]
@@ -79,17 +79,17 @@
 	\begin{subfigure}[b]{.3\textwidth}
 		\centering
 		\caption{Output}
-		\includegraphics[width=\textwidth]{out/timeY.eps}
+		\includegraphics[width=\textwidth]{../out/timeY.eps}
 	\end{subfigure}
 	\begin{subfigure}[b]{.3\textwidth}
 		\centering
 		\caption{Labor}
-		\includegraphics[width=\textwidth]{out/timeL.eps}
+		\includegraphics[width=\textwidth]{../out/timeL.eps}
 	\end{subfigure}\\
 	\begin{subfigure}[b]{.3\textwidth}
 		\centering
 		\caption{Capital}
-		\includegraphics[width=\textwidth]{out/timeK.eps}
+		\includegraphics[width=\textwidth]{../out/timeK.eps}
 	\end{subfigure}
 	\begin{subfigure}[b]{.3\textwidth}
 		\centering
@@ -116,12 +116,12 @@ Given that we suspect that the capital coefficient is both negatively biased and
 Finally, the Hausman test tell us that we can reject the null of the random and fixed effect estimators being statistically equivalent. The necessary asumption for random effects is very implausible in this setting because we precisely expect a non-zero correlation between the observed and unobserved variables. It is then not surprising that random effects estimators are almost the same as the pooled regression.
 
 
-\input{out/table_question2.tex}
+\input{../out/table_question2.tex}
 \FloatBarrier
 
 \subsection*{Question 3}
 
-\input{out/table_question3.tex}
+\input{../out/table_question3.tex}
 \FloatBarrier
 
 Taking the difference between time periods and running the regression on the differenced variables would only address our biases if we assume again that $\varepsilon_{it}=\omega_i+\eta_{it}$. In this scenario, the $\omega_i$ cancels out when we take the difference. There are two issue here. First, as we discussed above, this assumption on the structure of the errors is probably not right. Second, if the error term in measurement of capital varies in time, it is not canceled out by differencing the variables. Say true capital, $k^*_t$ has measurement error, then $k^*_{it}=k_{it}+\nu_{it}$. As we showed in class, this implies that the error term of the regression is $\eta_{it}^*-\beta_k\nu_{it}$. In this case, when we take first differences we get
@@ -141,35 +141,35 @@ The fact that the coefficient for capital in the pooled regression (\autoref{tab
 
 \subsection*{Question 4}
 \subsubsection*{(a)}
-\input{out/table_question4a.tex}
+\input{../out/table_question4a.tex}
 \FloatBarrier
 
 \subsubsection*{(b)}
-\input{out/table_question4b.tex}
-\input{out/table_question4b_mills.tex}
+\input{../out/table_question4b.tex}
+\input{../out/table_question4b_mills.tex}
 \FloatBarrier
 
 \subsection*{Question 5}
 \subsubsection*{(a)}
-\input{out/table_question5a.tex}
+\input{../out/table_question5a.tex}
 \FloatBarrier
 The coefficient obtained for labor here is similar to the one obtained in the question above, suggesting that endogeneity might not be such a big concern. 
 
 \subsubsection*{(c)}
-\input{out/table_question5c.tex}
+\input{../out/table_question5c.tex}
 \FloatBarrier
 Comparing our results to the ones found in questions 2 and 4, we can see that the coefficient for capital (0.271) is lower than the one found in the all four specifications analyzed in question 2. The same applies to question 4. As expected, all coefficients are positive -- firms that suffer higher productivity shocks hire more capital. 
 With respect to the coefficient for age of the firm (0.147), we verify the opposite. All coefficients found in questions 2 and 4 are lower for age than the one we found in the second-stage, but the differences are not as stark as for the capital case. 
 This seems to suggest that endogeneity is a concern for the coefficient of capital. In addition, this model should also correct for measurement error.  
 \newpage
 \subsubsection*{(d)}
-\input{out/table_question5d.tex}
+\input{../out/table_question5d.tex}
 \FloatBarrier
 After correcting for selection, our coefficient for capital rises, while the one for age decreases. 
 This result makes sense, as selection should lead to a negative bias in the capital coefficient. 
 \subsubsection*{(e)}
 \begin{comment}
-	\input{out/table_question5e.tex}
+	\input{../out/table_question5e.tex}
 \end{comment}
 \FloatBarrier
 
