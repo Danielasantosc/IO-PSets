@@ -16,13 +16,13 @@ globa path "/Users/abrasm/Dropbox/PhD Year 2/IO-PSets/Dani/IO-PSets"
 }
 
 if c(username)== "Daniela" { //insert username
-cd "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/ps1/repo/" // insert root path
-globa path "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/ps1/repo/"
+cd "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/ps1/repo/src" // insert root path
+globa path "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/ps1/repo/src"
 
 }
 
 * Upload data
-use data/PS1_Data, clear
+use $path/data/PS1_Data, clear
 
 * Label variables
 la var firm "Firm ID"
