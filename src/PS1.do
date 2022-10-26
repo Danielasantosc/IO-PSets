@@ -179,15 +179,19 @@ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) ///
 ** a) Using the full panel, compute pooled and FE estimators 
 est clear 
 * Total/Pooled
-eststo: reg Y A K L i.year
-
+eststo full: reg Y A K L i.year 
+eststo balan: reg Y A K L i.year if balanced==1
+suest full balan
+test [full_mean]K = [balan_mean]K // not different
+test [full_mean]A = [balan_mean]A 
 * Within
-eststo: xtreg Y A K L i.year, fe
+eststo: xtreg Y A K L i.year, fe 
+eststo: xtreg Y A K L i.year if balanced==1, fe
 
 * Table 
 esttab using "$path/out/table_question4a.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- mtitles("Pooled" "Within") stats(N,fmt("%9.0fc")) /// 
+ mtitles( "Pooled" "balanced" "Within" "balanced") stats(N,fmt("%9.0fc")) /// 
  title("Total and Within Estimators for Full Sample" \label{tab:q4a}) ///
  keep(A K L) ///
  booktabs nonotes
@@ -205,22 +209,29 @@ esttab using "$path/out/table_question4b.tex", replace   ///
  
 * Inverse Mills Ratio 
 predict phat_xb, xb
+predict phat
 gen pdf_probit = normalden(phat_xb)
 gen cdf_probit = normprob(phat_xb)
 gen inv_mills = pdf_probit/cdf_probit 
 la var inv_mills "Mills-Ratio"
 
 * Running pooled and FE with mills -- HInt is wrong, we don't need to lag the mills
-est clear 
-eststo: reg Y A K L i.year inv_mills // pooled
-eststo: xtreg Y A K L i.year inv_mills, fe // FE 
+est clear
+eststo nomill: reg Y A K L i.year // pooled
+eststo mill: reg Y A K L i.year inv_mills // pooled
+suest nomill mill
+test [nomill_mean]K = [mill_mean]K // not different
+test [nomill_mean]A = [mill_mean]A // different
+
+eststo:  xtreg Y A K L i.year, fe // FE 
+eststo:  xtreg Y A K L i.year inv_mills, fe // FE 
 
 * Table 
 esttab using "$path/out/table_question4b_mills.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- mtitles("Pooled" "Within") /// 
+ mtitles("Pooled" "Corrected" "Within" "Corrected") /// 
  title("Total and Within Estimators correcting for Selection" \label{tab:q4b2}) ///
- keep(A K L inv_mills) ///
+ keep(A K L inv_mills) stats(N,fmt("%9.0fc")) ///
  booktabs nonotes
 
 
@@ -241,7 +252,7 @@ est clear
 eststo: reg Y L i.year K I A ksq isq asq K_I K_A A_I
 
 * Table 
-esttab using "./out/table_question5a.tex", replace   ///
+esttab using "$path/out/table_question5a.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  keep(L) stats(N,fmt("%9.0fc")) ///
  title("OP First Stage" \label{tab:q5a}) ///
@@ -255,12 +266,13 @@ _b[ksq]*ksq + _b[asq]*asq + _b[isq]*isq + _b[K_A]*K_A + _b[K_I]*K_I + _b[A_I]*A_
 gen Y_ss = Y - _b[L]*L 
 nl (Y_ss = {b0} + {bK}*K + {bA}*A + {by2}*year_2 + {by3}*year_3 + ///
 {by4}*year_4 + {by5}*year_5 + {by6}*year_6 + {by7}*year_7 + {by8}*year_8 /// 
-+ {by9}*year_9 + {by10}*year_10 + {bh}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K) /// 
++ {by9}*year_9 + {by10}*year_10 + ///
+{bh}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K) /// 
 + {bh_sq}*(L1.phi_hat - {bA}*L1.A - {bK}*L1.K)^2) if L1.phi_hat != .
 estimates store nls 
 
 * Table 
- esttab nls using "./out/table_question5c.tex", replace   ///
+ esttab nls using "$path/out/table_question5c.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) ///
  title("OP Second Stage" \label{tab:q5c}) nomtitles stats(N,fmt("%9.0fc")) ///
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
@@ -276,20 +288,20 @@ nl (Y_ss = {b0} + {bK}*K + {bA}*A + {by2}*year_2 + {by3}*year_3 + ///
 estimates store nls_d
 
 * Table 
- esttab nls_d using "./out/table_question5d.tex", replace   ///
+ esttab nls_d using "$path/out/table_question5d.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) stats(N,fmt("%9.0fc")) /// 
  title("OP Second Stage correcting for Selection" \label{tab:q5d}) nomtitles ///
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** e) 
-*net install st0145_2 // for some reason this stopped working for me out of the blue. 
+net install st0145_2 // for some reason this stopped working for me out of the blue. 
 /// but hopefully it will work for somebody that doesn't have the package installed
 
 gen exit = (X == 0)
 opreg Y, exit(exit) state(A K) proxy(I) free(L) cvars(year_*) 
 estimates store opreg 
 
-esttab opreg using "./out/table_question5e.tex", replace   ///
+esttab opreg using "$path/out/table_question5e.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) stats(N,fmt("%9.0fc")) /// 
  title("OP Estimation correcting for Endogeneity and Selection" \label{tab:q5e}) ///
  booktabs nonotes keep(Y:A Y:K Y:L)  eqlabels(none)

@@ -1,0 +1,21 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Total, Between, Within and Random Effects Estimators \label{tab:q2}}
+\begin{tabular}{l*{4}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+                    &\multicolumn{1}{c}{Pooled}&\multicolumn{1}{c}{Between}&\multicolumn{1}{c}{Within}&\multicolumn{1}{c}{Random Effects}\\
+\midrule
+Age of the firm     &       0.133\sym{***}&       0.128\sym{***}&       0.188\sym{***}&       0.133\sym{***}\\
+                    &     (0.005)         &     (0.006)         &     (0.006)         &     (0.006)         \\
+\addlinespace
+Log of Capital      &       0.431\sym{***}&       0.555\sym{***}&       0.388\sym{***}&       0.421\sym{***}\\
+                    &     (0.007)         &     (0.016)         &     (0.008)         &     (0.007)         \\
+\addlinespace
+Log of Labor        &       0.594\sym{***}&       0.613\sym{***}&       0.592\sym{***}&       0.594\sym{***}\\
+                    &     (0.008)         &     (0.030)         &     (0.008)         &     (0.008)         \\
+\midrule
+N                   &      21,800         &      21,800         &      21,800         &      21,800         \\
+\bottomrule
+\end{tabular}
+\end{table}

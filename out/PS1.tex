@@ -83,43 +83,44 @@
 \begin{figure}[ht]
 	\caption{Time series by samples}\label{fig:time}
 	\centering	
-	\begin{subfigure}[b]{.3\textwidth}
+	\begin{subfigure}[b]{.23\textwidth}
 		\centering
 		\caption{Output}
 		\includegraphics[width=\textwidth]{timeY.eps}
 
 	\end{subfigure}
-	\begin{subfigure}[b]{.3\textwidth}
+	\begin{subfigure}[b]{.23\textwidth}
 		\centering
 		\caption{Labor}
 		\includegraphics[width=\textwidth]{timeL.eps}
-
-	\end{subfigure}\\
-	\begin{subfigure}[b]{.3\textwidth}
+	\end{subfigure}
+	\begin{subfigure}[b]{.23\textwidth}
 		\centering
 		\caption{Capital}
 		\includegraphics[width=\textwidth]{timeK.eps}
 	\end{subfigure}
-	\begin{subfigure}[b]{.3\textwidth}
+	\begin{subfigure}[b]{.23\textwidth}
 		\centering
 		\caption{Investment}
 		\includegraphics[width=\textwidth]{timeI.eps}
-
 	\end{subfigure}
 \begin{tabular*}{1\textwidth}{c}
 	\multicolumn{1}{p{1\hsize}}{\footnotesize Time series of average by year for both exiteres and firms that stay. Half of the exiters leave the market after year 7.}\\
 \end{tabular*}      	  
 \end{figure}
 
-\newpage
 
-Firms that exit the market are, on average, 2.7 years older than the firms that stay in the market. As can be seen in \autoref{fig:sumstat}, the differences in distribution suggests that firms that leave the market have less capital and investment, similar labor, and higher output. Lower capital points toward the fact that exiters had less protection against negative shocks. \\
+Firms that exit the market are, on average, 2.7 years older than the firms that stay in the market. As can be seen in \autoref{fig:sumstat}, the differences in distribution suggests that firms that leave the market have less capital and investment, similar labor, and higher output. Lower capital and investment points toward the fact that exiters had less protection against negative shocks. \\
 The fact that exiting firms have higher output is puzzling. However, as can be seen in \autoref{fig:time}, after year three, exiter firms seem to have tried to compensate for a bad productivity draw by increasing labor and investment. However, this overspending drove them to leave the market.
 
+\newpage
 
 \subsection*{Question 2} \label{q2}
 
-In order to estimate technology from a production function, we need the best possible estimates of the $\beta$s in the main regression because everything that we don't accurately account for in terms of labor, capital, and firm age will go in the error which will ultimately be the estimate of technology. We expect the labor coefficient to be positively biased given the simultaneity between a flexible input and output. Regarding capital, we expect it to suffer from both attenuation bias and negative bias. First, because of capital measurement error. Second, because of selection, since we are focused solely on the firms that stay which are the ones that have more capital and therefore have a lower productivity cutoff-level.\\
+In order to estimate technology from a production function, we need the best possible estimates of the $\beta$s in the main regression because everything that we don't accurately account for in terms of labor, capital, and firm age will go in the error which will ultimately be the estimate of technology. We expect the labor coefficient to be positively biased given the simultaneity between a flexible input and output. Regarding capital, we expect it to suffer from both attenuation bias and negative bias. First, because of capital measurement error. Second, because of selection, since we are focused solely on the firms that stay which are the ones that have more capital and therefore have a lower productivity cutoff-level. Regarding age, we expect selection to have upwards bias because the firms that exit are older on average. \\
+
+
+\input{table_question2.tex}
 
 The results for the pooled, fixed, random, and between effects are shown in \autoref{tab:q2}. As can be seen in column (1), it is the case that the coefficient of labor is larger than the standard 0.3 in the US literature. Likewise, capital seems less that then benchmark of 0.6. However, it is important to note that the labor coefficient doesn't change much across specifications. \\
 
@@ -129,7 +130,7 @@ Given that we suspect that the capital coefficient is both negatively biased and
 
 Finally, the Hausman test tell us that we can reject the null of the random and fixed effect estimators being statistically equivalent. The necessary assumption for random effects is very implausible in this setting because we precisely expect a non-zero correlation between the observed and unobserved variables. It is then not surprising that random effects estimators are almost the same as the pooled regression.  These results show that we are not really sure that using fixed effects, between or random effects estimators more likely than not is not addressing potential biases in the estimates
 
-\input{table_question2.tex}
+
 
 \FloatBarrier
 
@@ -150,28 +151,30 @@ Cov\left(\Delta (k_{it}^*+\nu_{it} ),\Delta (\eta_{it}^*-\beta_k\nu_{it})\right)
  & 	\Rightarrow \ 
  plim(\hat{\beta_k})-\beta_k= -\frac{2(\sigma^2_{\nu}-\rho_{t,j})}{\sigma_{k}^2 } \\ \nonumber
 \end{align}
-
 The fact that the coefficient for capital in the pooled regression (\autoref{tab:q2}, column 1) is attenuated comes from the fact that the errors include the $-\beta_k\nu_{it}$ term from measurement error, so the estimator is biased towards zero. In column (1) of \autoref{tab:q3} the capital coefficient is even more attenuated now because the measurement error is amplified by the difference estimator. In columns (2)-(4), we can see that the capital coefficient increases as $\rho_{t,j}$ decreases (bigger time difference) because the bias from \autoref{eq:bias} is becoming smaller. These results show that running the difference regression, even up to three periods apart, only amplifies the bias from measurement error in capital. 
 
+\newpage
 
 \subsection*{Question 4} \label{q4}
 \subsubsection*{(a)}
 
-While the labor coefficient doesn't change much when we use the entire sample, the capital coefficient is smaller when we include exiter firms, both for the pooled and for fixed effects regression. This result is puzzling because it contradicts the hypothesis that we have selection on more productive firms. If there was selection on more productive firms, we expect the capital coefficient to be negatively biased because more productivity is correlated with lower probability of exit. Adding the exiters would then increase (not decrease the capital coefficient). Capital coefficient is more susceptible to selection bias become it is more persistent than labor. 
+While the labor and age coefficient don't change when we use the entire sample (\autoref{tab:q4b1}, columns 1 and 3), the capital coefficient is marginally smaller when we include exiter firms, both for the pooled and for fixed effects regression. This result is puzzling because we would expect the full sample to be less negatively biased than the balanced sample. Moreover, the difference between the capital coefficients in the two regressions (column 1 vs column 2) is significant (p<0.0001). We expected that adding the exiters would increase (not decrease) the capital coefficient. 
 
 \input{ table_question4a.tex}
 \FloatBarrier
 
-\subsubsection*{(b)} Adding the Mills-Ratio to the regression doesn't change labor, which isn't surprising because we're not worried about selection bias for labor. However, the fact that the capital coefficient doesn't change either proves that selection bias is most likely not relevant here. The MR coefficient is close to zero and not even significant in the FE regression. 
-\input{table_question4b.tex}
-\input{table_question4b_mills.tex}
+\subsubsection*{(b)} Adding the Mills-Ratio to the regression doesn't change labor, which isn't surprising because we're not worried about selection bias for labor. However, it is surprising that both age and capital don't change much. Since we suspect negative bias in capital and positive bias in age, we would have expected that controlling for selection would significantly increase (decrease) the capital (age) coefficient. It is only the case that the smaller age coefficient (\autoref{tab:q4b2}, column 2) is statistically different from the coefficient in the uncorrected regression (\autoref{tab:q4b2}, column 1). This, together with the fact the MR coefficient is statistically significant, indicates we do have selection bias.
 
+\input{table_question4b.tex}
+
+\input{table_question4b_mills.tex}
 
 \FloatBarrier
 
 \subsection*{Question 5} \label{q5}
 \subsubsection*{(a)}
-The coefficient obtained for labor here is similar to the one obtained in the question above, suggesting that endogeneity might not be such a big concern. 
+The coefficient obtained for labor here is similar to the one obtained in the question above (\autoref{tab:q4a} and \autoref{tab:q4b2}), suggesting that endogeneity might not be such a big concern. 
+
 \input{ table_question5a.tex}
 \FloatBarrier
 
@@ -180,7 +183,6 @@ The coefficient obtained for labor here is similar to the one obtained in the qu
 \input{ table_question5c.tex}
 
 \FloatBarrier
-The coefficient obtained for labor here is similar to the one obtained in the question above (\autoref{tab:q4a} and \autoref{tab:q4b2}), suggesting that endogeneity might not be such a big concern. 
 
 \FloatBarrier
 Comparing our results to the ones found in \nameref{q2}, we can see that the coefficient for capital (0.271) is lower than the one found in the all four specifications analyzed. The same applies to \nameref{q4}, also when controling for selection. As expected, all coefficients are positive -- firms that suffer higher productivity shocks hire more capital. 
