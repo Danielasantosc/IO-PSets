@@ -182,8 +182,8 @@ est clear
 eststo full: reg Y A K L i.year 
 eststo balan: reg Y A K L i.year if balanced==1
 suest full balan
-test [full_mean]K = [balan_mean]K // not different
-test [full_mean]A = [balan_mean]A 
+test [full_mean]K = [balan_mean]K // different
+test [full_mean]A = [balan_mean]A // not different
 * Within
 eststo: xtreg Y A K L i.year, fe 
 eststo: xtreg Y A K L i.year if balanced==1, fe

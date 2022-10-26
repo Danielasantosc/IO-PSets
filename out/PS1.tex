@@ -29,7 +29,7 @@
 \usepackage{parskip}
 
 \title{Problem Set 1}
-\author{Ana, Daniela, Rafael}
+\author{Ana Br\'{a}s Monteiro and Daniela Santos C\'{a}rdenas}
 \date{\today}
 
 \begin{document}
@@ -182,27 +182,17 @@ The coefficient obtained for labor here is similar to the one obtained in the qu
 \subsubsection*{(c)}
 \input{ table_question5c.tex}
 
-\FloatBarrier
+Comparing our results to the ones found in \nameref{q2}, we can see that the coefficient for capital (0.271) is lower than the one found in the all four specifications analyzed. The same applies to \nameref{q4}, also when controlling for selection. With respect to the coefficient for age of the firm (0.147), we verify the opposite. All coefficients found in \nameref{q2} and \nameref{q4} are lower for age than the one we found in the second-stage, but the differences are not as stark as for the capital case. \\
+This seems to suggest that endogeneity is also a concern for the coefficient of capital. This application of OP should correct for endogeneity while ignoring selection. The fact that this coefficient is so much lower points to the fact that we do have a strong selection bias.
 
-\FloatBarrier
-Comparing our results to the ones found in \nameref{q2}, we can see that the coefficient for capital (0.271) is lower than the one found in the all four specifications analyzed. The same applies to \nameref{q4}, also when controling for selection. As expected, all coefficients are positive -- firms that suffer higher productivity shocks hire more capital. 
-With respect to the coefficient for age of the firm (0.147), we verify the opposite. All coefficients found in \nameref{q2} and \nameref{q4} are lower for age than the one we found in the second-stage, but the differences are not as stark as for the capital case. 
-This seems to suggest that endogeneity is a concern for the coefficient of capital. In addition, this model should also correct for measurement error.  
-\newpage
 \subsubsection*{(d)}
 \input{ table_question5d.tex}
 
 \FloatBarrier
-After correcting for selection, our coefficient for capital rises, while the one for age decreases. 
-This result makes sense, as selection should lead to a negative bias in the capital coefficient. 
+After correcting for selection, our coefficient for capital rises, while the one for age decreases. These results are in line with the above mentioned selection bias issues for capital and age. After correcting for both issues, capital is now larger that our initial estimates and closer to the standard 0.3 in the literature. The coefficient of the age of the firms is now corrected for the fact that the firms that leave the market are older. The OP method seems to have corrected for our suspected selection bias as well as for endogeneity. 
 
 \subsubsection*{(e)}
-\begin{comment}
-	\input{ table_question5e.tex}
-\end{comment}
-
-
-\FloatBarrier
+\input{ table_question5e.tex}
 
 The results are very similar to what was found before. The steps we went through before were simply a decomposition of this command.  
 
