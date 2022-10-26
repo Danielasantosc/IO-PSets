@@ -135,7 +135,7 @@ estimates store re
 esttab using "$path/out/table_question2.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Pooled" "Between" "Within" "Random Effects") /// 
- keep(A K L) ///
+ keep(A K L) stats(N,fmt("%9.0fc")) ///
  title("Total, Between, Within and Random Effects Estimators" \label{tab:q2}) ///
  booktabs nonotes
 
@@ -168,7 +168,7 @@ eststo: reg S3.Y S3.A S3.K S3.L S3.year_* if balanced==1 & diff_sample==1, nocon
 esttab using "./out/table_question3.tex", replace ///
 rename(S2.A S.A S3.A S.A S2.K S.K S3.K S.K S2.L S.L S3.L S.L) ///
 b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- mtitles("First" "Second" "Third")  ///
+ mtitles("First" "Second" "Third")  stats(N,fmt("%9.0fc")) ///
  title("Difference Estimators" \label{tab:q3}) ///
  keep(S.A S.K S.L) coeflabel(S.A "Age of the firm" S.K "Log of Capital" S.L "Log of Labor") ///
  booktabs nonotes 
@@ -187,8 +187,8 @@ eststo: xtreg Y A K L i.year, fe
 * Table 
 esttab using "$path/out/table_question4a.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- mtitles("Pooled" "Within") /// 
- title("Total and Within Estimators for Full Sample") ///
+ mtitles("Pooled" "Within") stats(N,fmt("%9.0fc")) /// 
+ title("Total and Within Estimators for Full Sample" \label{tab:q4a}) ///
  keep(A K L) ///
  booktabs nonotes
 
@@ -199,8 +199,8 @@ eststo: probit X I A K
 * Table 
 esttab using "$path/out/table_question4b.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- title("Probit Model for Exiting Probability") ///
- keep(I K A) eqlabels(none) ///
+ title("Probit Model for Exiting Probability" \label{tab:q4b1}) ///
+ keep(I K A) eqlabels(none) stats(N,fmt("%9.0fc")) ///
  booktabs nonotes
  
 * Inverse Mills Ratio 
@@ -219,7 +219,7 @@ eststo: xtreg Y A K L i.year inv_mills, fe // FE
 esttab using "$path/out/table_question4b_mills.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Pooled" "Within") /// 
- title("Total and Within Estimators correcting for Selection") ///
+ title("Total and Within Estimators correcting for Selection" \label{tab:q4b2}) ///
  keep(A K L inv_mills) ///
  booktabs nonotes
 
@@ -243,8 +243,8 @@ eststo: reg Y L i.year K I A ksq isq asq K_I K_A A_I
 * Table 
 esttab using "./out/table_question5a.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- keep(L) ///
- title("OP First Stage") ///
+ keep(L) stats(N,fmt("%9.0fc")) ///
+ title("OP First Stage" \label{tab:q5a}) ///
  booktabs nonotes nomtitles
  
 ** b) 
@@ -262,7 +262,7 @@ estimates store nls
 * Table 
  esttab nls using "./out/table_question5c.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) ///
- title("OP Second Stage") nomtitles ///
+ title("OP Second Stage" \label{tab:q5c}) nomtitles stats(N,fmt("%9.0fc")) ///
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** d)
@@ -277,12 +277,12 @@ estimates store nls_d
 
 * Table 
  esttab nls_d using "./out/table_question5d.tex", replace   ///
- b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) /// 
- title("OP Second Stage correcting for Selection") nomtitles ///
+ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) stats(N,fmt("%9.0fc")) /// 
+ title("OP Second Stage correcting for Selection" \label{tab:q5d}) nomtitles ///
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** e) 
-net install st0145_2 // for some reason this stopped working for me out of the blue. 
+*net install st0145_2 // for some reason this stopped working for me out of the blue. 
 /// but hopefully it will work for somebody that doesn't have the package installed
 
 gen exit = (X == 0)
@@ -290,8 +290,8 @@ opreg Y, exit(exit) state(A K) proxy(I) free(L) cvars(year_*)
 estimates store opreg 
 
 esttab opreg using "./out/table_question5e.tex", replace   ///
- b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- title("OP Estimation correcting for Endogeneity and Selection") ///
+ b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) stats(N,fmt("%9.0fc")) /// 
+ title("OP Estimation correcting for Endogeneity and Selection" \label{tab:q5e}) ///
  booktabs nonotes keep(Y:A Y:K Y:L)  eqlabels(none)
 
 
