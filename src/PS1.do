@@ -188,7 +188,7 @@ eststo: xtreg Y A K L i.year, fe
 esttab using "./out/table_question4a.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Pooled" "Within") /// 
- title("Total and Within Estimators for Full Sample") ///
+ title("Total and Within Estimators for Full Sample" \label{tab:q4a}) ///
  keep(A K L) ///
  booktabs nonotes
 
@@ -200,7 +200,7 @@ eststo: probit X I A K
 * Table 
 esttab using "./out/table_question4b.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- title("Probit Model for Exiting Probability") ///
+ title("Probit Model for Exiting Probability" \label{tab:q4b1}) ///
  keep(I K A) eqlabels(none) ///
  booktabs nonotes
  
@@ -220,7 +220,7 @@ eststo: xtreg Y A K L i.year inv_mills, fe // FE
 esttab using "./out/table_question4b_mills.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Pooled" "Within") /// 
- title("Total and Within Estimators correcting for Selection") ///
+ title("Total and Within Estimators correcting for Selection" \label{tab:q4b2}) ///
  keep(A K L) ///
  booktabs nonotes
 
@@ -245,7 +245,7 @@ eststo: reg Y L i.year K I A ksq isq asq K_I K_A A_I
 esttab using "./out/table_question5a.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  keep(L) ///
- title("OP First Stage") ///
+ title("OP First Stage" \label{tab:q5a}) ///
  booktabs nonotes nomtitles
  
 ** b) 
@@ -263,7 +263,7 @@ estimates store nls
 * Table 
  esttab nls using "./out/table_question5c.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) ///
- title("OP Second Stage") nomtitles ///
+ title("OP Second Stage" \label{tab:q5c}) nomtitles ///
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** d)
@@ -279,7 +279,7 @@ estimates store nls_d
 * Table 
  esttab nls_d using "./out/table_question5d.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) noeqlines eqlabels(none) /// 
- title("OP Second Stage correcting for Selection") nomtitles ///
+ title("OP Second Stage correcting for Selection" \label{tab:q5d}) nomtitles ///
  booktabs nonotes keep(bK:_cons bA:_cons) coeflabel(bK:_cons "Log of Capital" bA:_cons "Age of the firm")
  
 ** e) 
@@ -292,7 +292,7 @@ estimates store opreg
 
 esttab opreg using "./out/table_question5e.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
- title("OP Estimation correcting for Endogeneity and Selection") ///
+ title("OP Estimation correcting for Endogeneity and Selection" \label{tab:q5e}) ///
  booktabs nonotes keep(Y:A Y:K Y:L)  eqlabels(none)
 
 
