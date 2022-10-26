@@ -185,7 +185,7 @@ eststo: reg Y A K L i.year
 eststo: xtreg Y A K L i.year, fe
 
 * Table 
-esttab using "./out/table_question4a.tex", replace   ///
+esttab using "$path/out/table_question4a.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Pooled" "Within") /// 
  title("Total and Within Estimators for Full Sample") ///
@@ -193,12 +193,11 @@ esttab using "./out/table_question4a.tex", replace   ///
  booktabs nonotes
 
 ** b) Probit model 
-* Agus solution includes squared variables and interactions. How do I know what specification to use? 
 est clear 
 eststo: probit X I A K
 
 * Table 
-esttab using "./out/table_question4b.tex", replace   ///
+esttab using "$path/out/table_question4b.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  title("Probit Model for Exiting Probability") ///
  keep(I K A) eqlabels(none) ///
@@ -206,10 +205,10 @@ esttab using "./out/table_question4b.tex", replace   ///
  
 * Inverse Mills Ratio 
 predict phat_xb, xb
-predict phat
 gen pdf_probit = normalden(phat_xb)
 gen cdf_probit = normprob(phat_xb)
 gen inv_mills = pdf_probit/cdf_probit 
+la var inv_mills "Mills-Ratio"
 
 * Running pooled and FE with mills -- HInt is wrong, we don't need to lag the mills
 est clear 
@@ -217,11 +216,11 @@ eststo: reg Y A K L i.year inv_mills // pooled
 eststo: xtreg Y A K L i.year inv_mills, fe // FE 
 
 * Table 
-esttab using "./out/table_question4b_mills.tex", replace   ///
+esttab using "$path/out/table_question4b_mills.tex", replace   ///
  b(3) se(3) label star(* 0.10 ** 0.05 *** 0.01) /// 
  mtitles("Pooled" "Within") /// 
  title("Total and Within Estimators correcting for Selection") ///
- keep(A K L) ///
+ keep(A K L inv_mills) ///
  booktabs nonotes
 
 
