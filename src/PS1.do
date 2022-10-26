@@ -153,14 +153,17 @@ drop year_1
 
 est clear 
 
+qui: reg S3.Y S3.A S3.K S3.L S3.year_* if balanced==1, nocons 
+g diff_sample=e(sample) /// in order to have comparable estimates (same sample)
+
 * First difference
-eststo: reg S1.Y S1.A S1.K S1.L S1.year_* if balanced==1, nocons // need to get rid of constant due to collinearity
+eststo: reg S1.Y S1.A S1.K S1.L S1.year_* if balanced==1 & diff_sample==1, nocons // need to get rid of constant due to collinearity
 
 * Second difference
-eststo: reg S2.Y S2.A S2.K S2.L S2.year_* if balanced==1, nocons 
+eststo: reg S2.Y S2.A S2.K S2.L S2.year_* if balanced==1 & diff_sample==1, nocons 
 
 * Third difference 
-eststo: reg S3.Y S3.A S3.K S3.L S3.year_* if balanced==1, nocons 
+eststo: reg S3.Y S3.A S3.K S3.L S3.year_* if balanced==1 & diff_sample==1, nocons 
 
 esttab using "./out/table_question3.tex", replace ///
 rename(S2.A S.A S3.A S.A S2.K S.K S3.K S.K S2.L S.L S3.L S.L) ///

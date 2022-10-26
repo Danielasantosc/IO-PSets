@@ -120,7 +120,20 @@ Finally, the Hausman test tell us that we can reject the null of the random and 
 \FloatBarrier
 
 \subsection*{Question 3}
-Taking the difference between time periods and running the regression on the differenced variables would only address our biases if we assume again that $\varepsilon_{it}=\omega_i+\eta_{it}$. In column (1) of \autoref{tab:q3} we can see that the coefficient for labor did not change from the pooled regression and the capital coefficient falls. 
+Taking the difference between time periods and running the regression on the differenced variables would only address our biases if we assume again that $\varepsilon_{it}=\omega_i+\eta_{it}$. In this scenario, the $\omega_i$ cancels out when we take the difference. There are two issue here. First, as we discussed above, this assumption on the structure of the errors is probably not right. Second, if the error term in measurement of capital varies in time, it is not canceled out by differencing the variables. Say true capital, $k^*_t$ has measurement error, then $k^*_{it}=k_{it}+\nu_{it}$. As we showed in class, this implies that the error term of the regression is $\eta_{it}^*-\beta_k\nu_{it}$. In this case, when we take first differences we get
+
+
+\begin{align}\label{eq:bias}
+ Cov(\Delta k_{it},\Delta \varepsilon_{it})& =
+Cov\left(\Delta (k_{it}^*+\nu_{it} ),\Delta (\eta_{it}^*-\beta_k\nu_{it})\right) \quad \text{where $\Delta k_{it}=k_{it}-k_{ij}$ with $j<t$}\\ \nonumber
+&=-\beta_k Var(\Delta \nu_{it})=-\beta_k Var(\nu_{it}-\nu_{it-1})\\ \nonumber
+ &=-2\beta_k Var(\sigma^2_{\nu}-\rho_{t,j}) \quad \text{where $\rho_{t,j}$ is the serial correlation of $\nu$ between time $t$ and $j$}\\ \nonumber
+ & 	\Rightarrow \ 
+ plim(\hat{\beta_k})-\beta_k= -\frac{2(\sigma^2_{\nu}-\rho_{t,j})}{\sigma_{k}^2 } \\ \nonumber
+\end{align}
+
+The fact that the coefficient for capital in the pooled regression (\autoref{tab:q2}, column 1) is attenuated comes from the fact that the errors include the $-\beta_k\nu_{it}$ term from measurement error, so the estimator is biased towards zero. In column (1) of \autoref{tab:q3} the capital coefficient is even more attenuated now because the measurement error is amplified by the difference estimator. In columns (2)-(4), we can see that the capital coefficient increases as $\rho_{t,j}$ decreases (bigger time difference) because the bias from \autoref{eq:bias} is becoming smaller. These results show that running the difference regression, even up to three periods apart, only amplifies the bias from measurement error in capital. 
+
 \input{out/table_question3.tex}
 \FloatBarrier
 
