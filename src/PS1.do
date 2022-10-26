@@ -22,7 +22,7 @@ globa path "C:/Users/Daniela/Documents/dropbox_trabajo/Dropbox/UZH/Fall_2022/IO/
 }
 
 * Upload data
-use $path/data/PS1_Data, clear
+use "$path/data/PS1_Data", clear
 
 * Label variables
 la var firm "Firm ID"
