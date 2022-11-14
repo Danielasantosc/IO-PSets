@@ -1,7 +1,7 @@
 **************************************************************
 * Problem Set 1 - Industrial Organization 
-* Ana, Dani, Rafa
-* 13/10/2022
+* Ana Brás Monterio, Daniela Santos Cárdenas
+* 10/27/2022
 * Input: ./data/PS1_data.dta
 * Output: all tables stored in ./out
 * You can also find on github a .tex file with all the tables
